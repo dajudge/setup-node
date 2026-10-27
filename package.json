@@ -9,11 +9,12 @@
     "node": ">=24.0.0"
   },
   "scripts": {
-    "build": "ncc build -o dist/setup src/setup-node.ts && ncc build -o dist/cache-save src/cache-save.ts",
+    "build": "node scripts/patch-http-client-timeout.mjs && ncc build -o dist/setup src/setup-node.ts && ncc build -o dist/cache-save src/cache-save.ts",
     "format": "prettier --no-error-on-unmatched-pattern --write \"**/*.{ts,yml,yaml}\"",
     "format-check": "prettier --no-error-on-unmatched-pattern --check \"**/*.{ts,yml,yaml}\"",
     "lint": "eslint \"**/*.ts\"",
     "lint:fix": "eslint \"**/*.ts\" --fix",
+    "pretest": "node scripts/patch-http-client-timeout.mjs",
     "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --runInBand --coverage",
     "pre-checkin": "npm run format && npm run lint:fix && npm run build && npm test"
   },
